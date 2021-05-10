@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "dualwielding",
+  "version": "1.0.0",
+  "name": "Dual Wielding",
+  "description": "Dual Wielding Mod",
+  "authors": [
+    "Globox_Z"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/dualwielding",
+    "sources": "https://github.com/Globox1997/DualWielding",
+    "issues": "https://github.com/Globox1997/DualWielding/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/dualwielding/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.dualwielding.DualWieldingMain"
+    ],
+    "client": [
+      "net.dualwielding.DualWieldingClient"
+    ]
+  },
+  "mixins": [
+    "dualwielding.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
