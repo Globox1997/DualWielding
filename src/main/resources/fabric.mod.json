@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "dualwielding",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "name": "Dual Wielding",
-  "description": "Dual Wielding Mod",
+  "description": "Enables dual wielding",
   "authors": [
     "Globox_Z"
   ],

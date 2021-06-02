@@ -12,6 +12,7 @@ group = project.maven_group
 
 repositories {
 	maven { url 'https://jitpack.io' }
+	maven { url "https://maven.jamieswhiteshirt.com/libs-release/" }
 }
 
 dependencies {
@@ -23,6 +24,13 @@ dependencies {
 
 	//Straw
 	modCompileOnly 'com.github.GabrielOlvH:Straw-Dummy:476edb8d8b'
+	//Medieval Weapons
+	modCompileOnly 'com.github.Globox1997:MedievalWeapons:86134bb033',{
+		exclude(group: "net.fabricmc.fabric-api")
+		exclude(group: "com.terraformersmc")
+		exclude(group: "me.shedaniel.cloth")
+	}
+
 }
 
 processResources {
