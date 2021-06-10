@@ -15,7 +15,7 @@ public class PlayerAttackPacket {
 
     public static Packet<?> attackPacket(Entity entity) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(entity.getEntityId());
+        buf.writeInt(entity.getId());
         return ClientPlayNetworking.createC2SPacket(ATTACK_PACKET, buf);
     }
 

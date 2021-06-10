@@ -62,7 +62,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
             int s = (int) (o * 19.0F);
             this.client.getTextureManager()
                     .bindTexture(new Identifier("dualwielding:textures/gui/hotbar_indicator.png"));
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             DrawableHelper.drawTexture(matrices, r, this.scaledHeight - 20 + 18 - s, 0.0F, 18.0F - s, 18, s, 32, 32);
         }
     }

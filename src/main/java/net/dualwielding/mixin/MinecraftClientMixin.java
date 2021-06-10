@@ -1,5 +1,6 @@
 package net.dualwielding.mixin;
 
+import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -63,7 +64,7 @@ public class MinecraftClientMixin {
         if (player != null && !player.isSpectator()
                 && (offHandItem instanceof SwordItem || offHandItem instanceof MiningToolItem)
                 && (mainHandItem instanceof SwordItem || mainHandItem instanceof MiningToolItem)
-                && medievalWeaponsDoubleHanded(offHandItem)) {
+                && medievalWeaponsDoubleHanded(player.getOffHandStack())) {
             if (this.secondAttackCooldown <= 0) {
                 if (this.crosshairTarget != null && !this.player.isRiding()) {
                     switch (this.crosshairTarget.getType()) {
@@ -102,10 +103,12 @@ public class MinecraftClientMixin {
         }
     }
 
-    private boolean medievalWeaponsDoubleHanded(Item offHandItem) {
-        if (FabricLoader.getInstance().isModLoaded("medievalweapons") && (offHandItem.isIn(TagInit.DOUBLE_HANDED_ITEMS)
-                || offHandItem.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS) || offHandItem instanceof Long_Sword_Item
-                || offHandItem instanceof Big_Axe_Item)) {
+    private boolean medievalWeaponsDoubleHanded(ItemStack offHandItemStack) {
+        if (FabricLoader.getInstance().isModLoaded("medievalweapons") && (
+                offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS)
+                || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS) ||
+                offHandItemStack.getItem() instanceof Long_Sword_Item
+                || offHandItemStack.getItem() instanceof Big_Axe_Item)) {
             return false;
         } else
             return true;
