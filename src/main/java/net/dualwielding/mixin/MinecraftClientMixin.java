@@ -29,7 +29,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
-@Mixin(MinecraftClient.class)
+@Mixin(value = MinecraftClient.class)
 public class MinecraftClientMixin {
     @Shadow
     @Nullable
@@ -64,7 +64,7 @@ public class MinecraftClientMixin {
         if (player != null && !player.isSpectator()
                 && (offHandItem instanceof SwordItem || offHandItem instanceof MiningToolItem)
                 && (mainHandItem instanceof SwordItem || mainHandItem instanceof MiningToolItem)
-                && medievalWeaponsDoubleHanded(player.getOffHandStack())) {
+                && PlayerAttackPacket.medievalWeaponsDoubleHanded(player.getOffHandStack())) {
             if (this.secondAttackCooldown <= 0) {
                 if (this.crosshairTarget != null && !this.player.isRiding()) {
                     switch (this.crosshairTarget.getType()) {
@@ -103,14 +103,4 @@ public class MinecraftClientMixin {
         }
     }
 
-    private boolean medievalWeaponsDoubleHanded(ItemStack offHandItemStack) {
-        if (FabricLoader.getInstance().isModLoaded("medievalweapons") && (
-                offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS)
-                || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS) ||
-                offHandItemStack.getItem() instanceof Long_Sword_Item
-                || offHandItemStack.getItem() instanceof Big_Axe_Item)) {
-            return false;
-        } else
-            return true;
-    }
 }
