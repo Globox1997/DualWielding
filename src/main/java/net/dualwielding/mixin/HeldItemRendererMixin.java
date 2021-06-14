@@ -55,7 +55,7 @@ public class HeldItemRendererMixin {
         float o = ((PlayerAccess) clientPlayerEntity).getAttackCooldownProgressOffhand(1.0F);
         if (o < 0.1F) {
             this.isOffhandAttack = true;
-            this.equipOffhand = 1.0F;
+          //  this.equipOffhand = 1.0F;
         }
         if (this.isOffhandAttack) {
             if (this.equipProgressMainHand >= 1.0F) {

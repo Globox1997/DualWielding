@@ -43,8 +43,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
         float o = ((PlayerAccess) this.client.player).getAttackCooldownProgressOffhand(1.0F);
         if (o < 1.0F) {
             int u = (int) (o * 17.0F);
-            this.client.getTextureManager()
-                    .bindTexture(new Identifier("dualwielding:textures/gui/crosshair_indicator.png"));
+            RenderSystem.setShaderTexture(0, new Identifier("dualwielding:textures/gui/crosshair_indicator.png"));
             DrawableHelper.drawTexture(matrices, this.scaledWidth / 2 - 8, this.scaledHeight / 2 - 7 + 16, 0.0F, 0.0F,
                     u, 4, 16, 16);
         }
@@ -60,8 +59,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
                 r = (this.scaledWidth / 2) - 91 - 22;
             }
             int s = (int) (o * 19.0F);
-            this.client.getTextureManager()
-                    .bindTexture(new Identifier("dualwielding:textures/gui/hotbar_indicator.png"));
+            RenderSystem.setShaderTexture(0, new Identifier("dualwielding:textures/gui/hotbar_indicator.png"));
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             DrawableHelper.drawTexture(matrices, r, this.scaledHeight - 20 + 18 - s, 0.0F, 18.0F - s, 18, s, 32, 32);
         }
