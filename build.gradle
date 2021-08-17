@@ -24,9 +24,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	//Straw
-	modCompileOnly 'com.github.GabrielOlvH:Straw-Dummy:476edb8d8b', {
-		exclude(group: "net.fabricmc.fabric-api")
-	}
+	// modCompileOnly 'com.github.GabrielOlvH:Straw-Dummy:476edb8d8b', {
+	// 	exclude(group: "net.fabricmc.fabric-api")
+	// }
 	//Medieval Weapons
 	modCompileOnly modRuntime('com.github.Globox1997:MedievalWeapons:3730447808'),{
 		exclude(group: "net.fabricmc.fabric-api")
