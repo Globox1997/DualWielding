@@ -1,6 +1,5 @@
 package net.dualwielding.mixin;
 
-import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -11,10 +10,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import net.dualwielding.access.PlayerAccess;
 import net.dualwielding.network.PlayerAttackPacket;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
-import net.medievalweapons.init.TagInit;
-import net.medievalweapons.item.Big_Axe_Item;
-import net.medievalweapons.item.Long_Sword_Item;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -29,7 +24,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
-@Mixin(value = MinecraftClient.class)
+@Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
     @Shadow
     @Nullable
