@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.8-SNAPSHOT'
+	id 'fabric-loom' version '0.9-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -28,7 +28,7 @@ dependencies {
 	// 	exclude(group: "net.fabricmc.fabric-api")
 	// }
 	//Medieval Weapons
-	modCompileOnly modRuntime('com.github.Globox1997:MedievalWeapons:71f49ed87a'),{
+	modCompileOnly modRuntime('com.github.Globox1997:MedievalWeapons:0366cec1d5'),{
 		exclude(group: "net.fabricmc.fabric-api")
 		exclude(group: "com.terraformersmc")
 		exclude(group: "curse.maven")
