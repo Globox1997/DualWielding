@@ -29,7 +29,9 @@ public class PlayerAttackPacket {
             ((PlayerAccess) player).setOffhandAttack();
           //  ((PlayerAccess) player).resetLastOffhandAttackTicks();
             player.updateLastActionTime();
-            player.attack(player.world.getEntityById(buffer.getInt(0)));
+            if (player.world.getEntityById(buffer.getInt(0)) != null) {
+            	player.attack(player.world.getEntityById(buffer.getInt(0)));
+            }
         });
 
     }
