@@ -63,28 +63,28 @@ public class MinecraftClientMixin {
             if (this.secondAttackCooldown <= 0) {
                 if (this.crosshairTarget != null && !this.player.isRiding()) {
                     switch (this.crosshairTarget.getType()) {
-                        case ENTITY:
-                            // Client
-                            ((PlayerAccess) player).setOffhandAttack();
-                            ((PlayerAccess) player).resetLastOffhandAttackTicks();
-                            player.attack(((EntityHitResult) this.crosshairTarget).getEntity());
-                            // Server
-                            MinecraftClient.getInstance().getNetworkHandler().sendPacket(PlayerAttackPacket
-                                    .attackPacket(((EntityHitResult) this.crosshairTarget).getEntity()));
+                    case ENTITY:
+                        // Client
+                        ((PlayerAccess) player).setOffhandAttack();
+                        ((PlayerAccess) player).resetLastOffhandAttackTicks();
+                        player.attack(((EntityHitResult) this.crosshairTarget).getEntity());
+                        // Server
+                        MinecraftClient.getInstance().getNetworkHandler().sendPacket(
+                                PlayerAttackPacket.attackPacket(((EntityHitResult) this.crosshairTarget).getEntity()));
+                        break;
+                    case BLOCK:
+                        BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
+                        BlockPos blockPos = blockHitResult.getBlockPos();
+                        if (!player.world.getBlockState(blockPos).isAir()) {
+                            this.interactionManager.interactBlock(player, player.clientWorld, Hand.OFF_HAND,
+                                    blockHitResult);
                             break;
-                        case BLOCK:
-                            BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
-                            BlockPos blockPos = blockHitResult.getBlockPos();
-                            if (!player.world.getBlockState(blockPos).isAir()) {
-                                this.interactionManager.interactBlock(player, player.clientWorld, Hand.OFF_HAND,
-                                        blockHitResult);
-                                break;
-                            }
-                        case MISS:
-                            if (this.interactionManager.hasLimitedAttackSpeed()) {
-                                this.secondAttackCooldown = 10;
-                            }
-                            ((PlayerAccess) player).resetLastOffhandAttackTicks();
+                        }
+                    case MISS:
+                        if (this.interactionManager.hasLimitedAttackSpeed()) {
+                            this.secondAttackCooldown = 10;
+                        }
+                        ((PlayerAccess) player).resetLastOffhandAttackTicks();
                     }
                     attackedOffhand = true;
                     this.player.swingHand(Hand.OFF_HAND);

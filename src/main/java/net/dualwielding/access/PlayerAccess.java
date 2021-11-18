@@ -2,11 +2,11 @@ package net.dualwielding.access;
 
 public interface PlayerAccess {
 
-    public void resetLastOffhandAttackTicks();
+    void resetLastOffhandAttackTicks();
 
-    public void setOffhandAttack();
+    void setOffhandAttack();
 
-    public boolean isOffhandAttack();
+    boolean isOffhandAttack();
 
-    public float getAttackCooldownProgressOffhand(float baseTime);
+    float getAttackCooldownProgressOffhand(float baseTime);
 }

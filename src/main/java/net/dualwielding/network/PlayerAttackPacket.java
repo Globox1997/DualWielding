@@ -27,20 +27,20 @@ public class PlayerAttackPacket {
     public static void init() {
         ServerPlayNetworking.registerGlobalReceiver(ATTACK_PACKET, (server, player, handler, buffer, sender) -> {
             ((PlayerAccess) player).setOffhandAttack();
-          //  ((PlayerAccess) player).resetLastOffhandAttackTicks();
+            // ((PlayerAccess) player).resetLastOffhandAttackTicks();
             player.updateLastActionTime();
             if (player.world.getEntityById(buffer.getInt(0)) != null) {
-            	player.attack(player.world.getEntityById(buffer.getInt(0)));
+                player.attack(player.world.getEntityById(buffer.getInt(0)));
             }
         });
 
     }
 
     public static boolean medievalWeaponsDoubleHanded(ItemStack offHandItemStack) {
-        if (FabricLoader.getInstance().isModLoaded("medievalweapons") && (
-                offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS)
-                        || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS) ||
-                        offHandItemStack.getItem() instanceof Long_Sword_Item
+        if (FabricLoader.getInstance().isModLoaded("medievalweapons")
+                && (offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS)
+                        || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS)
+                        || offHandItemStack.getItem() instanceof Long_Sword_Item
                         || offHandItemStack.getItem() instanceof Big_Axe_Item)) {
             return false;
         } else
