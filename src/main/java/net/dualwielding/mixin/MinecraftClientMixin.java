@@ -56,10 +56,8 @@ public class MinecraftClientMixin {
         Item offHandItem = player.getOffHandStack().getItem();
         Item mainHandItem = player.getMainHandStack().getItem();
 
-        if (player != null && !player.isSpectator()
-                && (offHandItem instanceof SwordItem || offHandItem instanceof MiningToolItem)
-                && (mainHandItem instanceof SwordItem || mainHandItem instanceof MiningToolItem)
-                && PlayerAttackPacket.medievalWeaponsDoubleHanded(player.getOffHandStack())) {
+        if (player != null && !player.isSpectator() && (offHandItem instanceof SwordItem || offHandItem instanceof MiningToolItem)
+                && (mainHandItem instanceof SwordItem || mainHandItem instanceof MiningToolItem) && PlayerAttackPacket.medievalWeaponsDoubleHanded(player.getOffHandStack())) {
             if (this.secondAttackCooldown <= 0) {
                 if (this.crosshairTarget != null && !this.player.isRiding()) {
                     switch (this.crosshairTarget.getType()) {
@@ -69,15 +67,13 @@ public class MinecraftClientMixin {
                         ((PlayerAccess) player).resetLastOffhandAttackTicks();
                         player.attack(((EntityHitResult) this.crosshairTarget).getEntity());
                         // Server
-                        MinecraftClient.getInstance().getNetworkHandler().sendPacket(
-                                PlayerAttackPacket.attackPacket(((EntityHitResult) this.crosshairTarget).getEntity()));
+                        MinecraftClient.getInstance().getNetworkHandler().sendPacket(PlayerAttackPacket.attackPacket(((EntityHitResult) this.crosshairTarget).getEntity()));
                         break;
                     case BLOCK:
                         BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
                         BlockPos blockPos = blockHitResult.getBlockPos();
                         if (!player.world.getBlockState(blockPos).isAir()) {
-                            this.interactionManager.interactBlock(player, player.clientWorld, Hand.OFF_HAND,
-                                    blockHitResult);
+                            this.interactionManager.interactBlock(player, player.clientWorld, Hand.OFF_HAND, blockHitResult);
                             break;
                         }
                     case MISS:

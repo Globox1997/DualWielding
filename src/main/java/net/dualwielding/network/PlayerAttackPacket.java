@@ -37,11 +37,8 @@ public class PlayerAttackPacket {
     }
 
     public static boolean medievalWeaponsDoubleHanded(ItemStack offHandItemStack) {
-        if (FabricLoader.getInstance().isModLoaded("medievalweapons")
-                && (offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS)
-                        || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS)
-                        || offHandItemStack.getItem() instanceof Long_Sword_Item
-                        || offHandItemStack.getItem() instanceof Big_Axe_Item)) {
+        if (FabricLoader.getInstance().isModLoaded("medievalweapons") && (offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS) || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS)
+                || offHandItemStack.getItem() instanceof Long_Sword_Item || offHandItemStack.getItem() instanceof Big_Axe_Item)) {
             return false;
         } else
             return true;

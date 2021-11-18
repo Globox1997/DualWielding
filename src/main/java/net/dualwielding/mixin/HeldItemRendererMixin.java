@@ -50,19 +50,17 @@ public class HeldItemRendererMixin {
     }
 
     @Inject(method = "updateHeldItems", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/util/math/MathHelper;clamp(FFF)F", ordinal = 3, shift = Shift.AFTER), locals = LocalCapture.CAPTURE_FAILSOFT)
-    public void updateHeldItemsMixin(CallbackInfo info, ClientPlayerEntity clientPlayerEntity, ItemStack itemStack,
-            ItemStack itemStack2) {
+    public void updateHeldItemsMixin(CallbackInfo info, ClientPlayerEntity clientPlayerEntity, ItemStack itemStack, ItemStack itemStack2) {
         float o = ((PlayerAccess) clientPlayerEntity).getAttackCooldownProgressOffhand(1.0F);
         if (o < 0.1F) {
             this.isOffhandAttack = true;
-          //  this.equipOffhand = 1.0F;
+            // this.equipOffhand = 1.0F;
         }
         if (this.isOffhandAttack) {
             if (this.equipProgressMainHand >= 1.0F) {
                 this.isOffhandAttack = false;
             }
-            this.equipOffhand += MathHelper.clamp((this.offHand == itemStack2 ? o * o * o : 0.0F) - this.equipOffhand,
-                    -0.4F, 0.4F);
+            this.equipOffhand += MathHelper.clamp((this.offHand == itemStack2 ? o * o * o : 0.0F) - this.equipOffhand, -0.4F, 0.4F);
             this.equipProgressOffHand = this.equipOffhand;
         }
     }

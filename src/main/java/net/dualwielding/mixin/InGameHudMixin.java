@@ -44,8 +44,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
         if (o < 1.0F) {
             int u = (int) (o * 17.0F);
             RenderSystem.setShaderTexture(0, new Identifier("dualwielding:textures/gui/crosshair_indicator.png"));
-            DrawableHelper.drawTexture(matrices, this.scaledWidth / 2 - 8, this.scaledHeight / 2 - 7 + 16, 0.0F, 0.0F,
-                    u, 4, 16, 16);
+            DrawableHelper.drawTexture(matrices, this.scaledWidth / 2 - 8, this.scaledHeight / 2 - 7 + 16, 0.0F, 0.0F, u, 4, 16, 16);
         }
     }
 

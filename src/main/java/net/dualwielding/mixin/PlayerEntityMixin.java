@@ -121,8 +121,7 @@ public class PlayerEntityMixin implements PlayerAccess {
     public void spawnSweepAttackParticles(CallbackInfo info, double d, double e) {
         if (this.offHandAttack) {
             PlayerEntity playerEntity = (PlayerEntity) (Object) this;
-            ((ServerWorld) playerEntity.world).spawnParticles(ParticleInit.OFFHAND_SWEEPING, playerEntity.getX() + d,
-                    playerEntity.getBodyY(0.5D), playerEntity.getZ() + e, 0, d, 0.0D, e, 0.0D);
+            ((ServerWorld) playerEntity.world).spawnParticles(ParticleInit.OFFHAND_SWEEPING, playerEntity.getX() + d, playerEntity.getBodyY(0.5D), playerEntity.getZ() + e, 0, d, 0.0D, e, 0.0D);
             info.cancel();
         }
     }
@@ -144,9 +143,7 @@ public class PlayerEntityMixin implements PlayerAccess {
 
     @Override
     public float getAttackCooldownProgressOffhand(float baseTime) {
-        return MathHelper.clamp(
-                ((float) this.lastAttackedOffhandTicks + baseTime) / this.getAttackCooldownProgressPerTick(), 0.0F,
-                1.0F);
+        return MathHelper.clamp(((float) this.lastAttackedOffhandTicks + baseTime) / this.getAttackCooldownProgressPerTick(), 0.0F, 1.0F);
     }
 
 }
