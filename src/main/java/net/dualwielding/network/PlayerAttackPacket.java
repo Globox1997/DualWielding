@@ -8,6 +8,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.medievalweapons.init.TagInit;
 import net.medievalweapons.item.Big_Axe_Item;
 import net.medievalweapons.item.Long_Sword_Item;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
@@ -29,7 +30,7 @@ public class PlayerAttackPacket {
             ((PlayerAccess) player).setOffhandAttack();
           //  ((PlayerAccess) player).resetLastOffhandAttackTicks();
             player.updateLastActionTime();
-            if (player.world.getEntityById(buffer.getInt(0)) != null) {
+            if (!player.world.isClient && player.world.getEntityById(buffer.getInt(0)) != null) {
             	player.attack(player.world.getEntityById(buffer.getInt(0)));
             }
         });
