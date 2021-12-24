@@ -26,12 +26,17 @@ public class PlayerAttackPacket {
 
     public static void init() {
         ServerPlayNetworking.registerGlobalReceiver(ATTACK_PACKET, (server, player, handler, buffer, sender) -> {
-            ((PlayerAccess) player).setOffhandAttack();
-            // ((PlayerAccess) player).resetLastOffhandAttackTicks();
-            player.updateLastActionTime();
-            if (player.world.getEntityById(buffer.getInt(0)) != null) {
-                player.attack(player.world.getEntityById(buffer.getInt(0)));
-            }
+            int entityId = buffer.readInt();
+            server.execute(() -> {
+                ((PlayerAccess) player).setOffhandAttack();
+                // ((PlayerAccess) player).resetLastOffhandAttackTicks();
+                player.updateLastActionTime();
+
+                if (player.world.getEntityById(entityId) != null) {
+                    player.attack(player.world.getEntityById(entityId));
+                }
+            });
+
         });
 
     }
