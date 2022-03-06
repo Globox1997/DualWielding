@@ -25,7 +25,7 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 
-@Mixin(PlayerEntity.class)
+@Mixin(value = PlayerEntity.class, priority = 1001)
 public class PlayerEntityMixin implements PlayerAccess {
 
     private int lastAttackedOffhandTicks;
@@ -43,7 +43,7 @@ public class PlayerEntityMixin implements PlayerAccess {
         lastAttackedOffhandTicks = 0;
     }
 
-    @ModifyVariable(method = "attack", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getAttackDamage(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EntityGroup;)F"), ordinal = 0)
+    @ModifyVariable(method = "attack", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getAttackDamage(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EntityGroup;)F"), ordinal = 0, require = 0)
     private float attackDamageMixin(float original) {
         Item item = ((PlayerEntity) (Object) this).getOffHandStack().getItem();
         if (this.offHandAttack) {
@@ -58,7 +58,7 @@ public class PlayerEntityMixin implements PlayerAccess {
             return original;
     }
 
-    @ModifyVariable(method = "attack", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F", shift = Shift.BEFORE), ordinal = 1)
+    @ModifyVariable(method = "attack", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F", shift = Shift.BEFORE), ordinal = 1, require = 0)
     private float attackEnchantmentDamageMixin(float original) {
         ItemStack itemStack = ((PlayerEntity) (Object) this).getOffHandStack();
         if (this.offHandAttack) {
@@ -73,7 +73,7 @@ public class PlayerEntityMixin implements PlayerAccess {
             return original;
     }
 
-    @ModifyVariable(method = "attack", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F"), ordinal = 2)
+    @ModifyVariable(method = "attack", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownProgress(F)F"), ordinal = 2, require = 0)
     private float cooldownProgressMixin(float original) {
         if (this.offHandAttack) {
             return this.getAttackCooldownProgressOffhand(0.5F);
@@ -95,7 +95,7 @@ public class PlayerEntityMixin implements PlayerAccess {
         }
     }
 
-    @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;postHit(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/player/PlayerEntity;)V"))
+    @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;postHit(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/player/PlayerEntity;)V"), require = 0)
     private void attackPostHitMixin(ItemStack itemstack, LivingEntity livingEntity, PlayerEntity playerEntity) {
         if (this.offHandAttack) {
             playerEntity.getOffHandStack().postHit(livingEntity, playerEntity);
