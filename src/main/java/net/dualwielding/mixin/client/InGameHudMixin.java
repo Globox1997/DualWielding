@@ -1,4 +1,4 @@
-package net.dualwielding.mixin;
+package net.dualwielding.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 

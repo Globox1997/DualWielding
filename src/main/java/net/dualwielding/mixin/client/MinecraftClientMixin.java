@@ -1,4 +1,4 @@
-package net.dualwielding.mixin;
+package net.dualwielding.mixin.client;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;

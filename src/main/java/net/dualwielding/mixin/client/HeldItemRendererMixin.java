@@ -1,4 +1,4 @@
-package net.dualwielding.mixin;
+package net.dualwielding.mixin.client;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -52,10 +52,9 @@ public class HeldItemRendererMixin {
     @Inject(method = "updateHeldItems", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/util/math/MathHelper;clamp(FFF)F", ordinal = 3, shift = Shift.AFTER), locals = LocalCapture.CAPTURE_FAILSOFT)
     public void updateHeldItemsMixin(CallbackInfo info, ClientPlayerEntity clientPlayerEntity, ItemStack itemStack, ItemStack itemStack2) {
         float o = ((PlayerAccess) clientPlayerEntity).getAttackCooldownProgressOffhand(1.0F);
-        if (o < 0.1F) {
+        if (o < 0.1F)
             this.isOffhandAttack = true;
-            // this.equipOffhand = 1.0F;
-        }
+        // this.equipOffhand = 1.0F;
         if (this.isOffhandAttack) {
             if (this.equipProgressMainHand >= 1.0F) {
                 this.isOffhandAttack = false;
@@ -68,9 +67,8 @@ public class HeldItemRendererMixin {
     @Inject(method = "updateHeldItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getAttackCooldownProgress(F)F"))
     public void updateHeldMainhandMixin(CallbackInfo info) {
         float o = ((PlayerAccess) client.player).getAttackCooldownProgressOffhand(1.0F);
-        if (o < 0.9F && o > 0.15F) {
+        if (o < 0.9F && o > 0.15F)
             this.offHand = new ItemStack(Items.AIR);
-        }
 
     }
 
