@@ -15,12 +15,12 @@ import net.minecraft.util.Hand;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin {
+
     @Inject(method = "swingHand", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V", shift = Shift.AFTER), cancellable = true)
     private void swingHandMixin(Hand hand, CallbackInfo info) {
         Item item = ((PlayerEntity) (Object) this).getOffHandStack().getItem();
-        if (hand == Hand.OFF_HAND && (item instanceof SwordItem || item instanceof MiningToolItem)) {
+        if (hand == Hand.OFF_HAND && (item instanceof SwordItem || item instanceof MiningToolItem))
             info.cancel();
-        }
     }
 
 }
