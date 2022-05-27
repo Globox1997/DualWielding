@@ -8,7 +8,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.medievalweapons.init.TagInit;
 import net.medievalweapons.item.Big_Axe_Item;
 import net.medievalweapons.item.Long_Sword_Item;
+import net.medievalweapons.item.Ninjato_Item;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
@@ -41,9 +43,10 @@ public class PlayerAttackPacket {
 
     }
 
-    public static boolean medievalWeaponsDoubleHanded(ItemStack offHandItemStack) {
-        if (FabricLoader.getInstance().isModLoaded("medievalweapons") && (offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS) || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS)
-                || offHandItemStack.getItem() instanceof Long_Sword_Item || offHandItemStack.getItem() instanceof Big_Axe_Item)) {
+    public static boolean medievalWeaponsDoubleHanded(ItemStack offHandItemStack, Item mainHandItem) {
+        if (FabricLoader.getInstance().isModLoaded("medievalweapons")
+                && (offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS) || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS) || offHandItemStack.getItem() instanceof Long_Sword_Item
+                        || offHandItemStack.getItem() instanceof Big_Axe_Item || (offHandItemStack.getItem() instanceof Ninjato_Item && mainHandItem instanceof Ninjato_Item))) {
             return false;
         } else
             return true;

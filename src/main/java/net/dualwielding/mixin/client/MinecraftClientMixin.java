@@ -57,7 +57,7 @@ public class MinecraftClientMixin {
         Item mainHandItem = player.getMainHandStack().getItem();
 
         if (player != null && !player.isSpectator() && (offHandItem instanceof SwordItem || offHandItem instanceof MiningToolItem)
-                && (mainHandItem instanceof SwordItem || mainHandItem instanceof MiningToolItem) && PlayerAttackPacket.medievalWeaponsDoubleHanded(player.getOffHandStack())) {
+                && (mainHandItem instanceof SwordItem || mainHandItem instanceof MiningToolItem) && PlayerAttackPacket.medievalWeaponsDoubleHanded(player.getOffHandStack(), mainHandItem)) {
             if (this.secondAttackCooldown <= 0) {
                 if (this.crosshairTarget != null && !this.player.isRiding()) {
                     switch (this.crosshairTarget.getType()) {
