@@ -40,7 +40,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
     @Inject(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getAttackCooldownProgress(F)F", shift = Shift.AFTER))
     private void renderCrosshairMixinTEST(MatrixStack matrices, CallbackInfo info) {
-        float o = ((PlayerAccess) this.client.player).getAttackCooldownProgressOffhand(1.0F);
+        float o = ((PlayerAccess) this.client.player).getAttackCooldownProgressDualOffhand(1.0F);
         if (o < 1.0F) {
             int u = (int) (o * 17.0F);
             RenderSystem.setShaderTexture(0, new Identifier("dualwielding:textures/gui/crosshair_indicator.png"));
@@ -50,7 +50,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
     @Inject(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getAttackCooldownProgress(F)F", shift = Shift.AFTER))
     private void renderHotbar(float tickDelta, MatrixStack matrices, CallbackInfo info) {
-        float o = ((PlayerAccess) this.client.player).getAttackCooldownProgressOffhand(1.0F);
+        float o = ((PlayerAccess) this.client.player).getAttackCooldownProgressDualOffhand(1.0F);
         if (o < 1.0F) {
             Arm arm = this.client.player.getMainArm().getOpposite();
             int r = (this.scaledWidth / 2) + 91 + 6;

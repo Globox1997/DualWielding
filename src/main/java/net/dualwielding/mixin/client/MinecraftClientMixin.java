@@ -3,6 +3,7 @@ package net.dualwielding.mixin.client;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,17 +38,13 @@ public class MinecraftClientMixin {
     public HitResult crosshairTarget;
     @Shadow
     private int itemUseCooldown;
-
+    @Unique
     private int secondAttackCooldown;
-    private boolean attackedOffhand;
 
     @Inject(method = "Lnet/minecraft/client/MinecraftClient;tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;handleInputEvents()V"))
     public void tickMixin(CallbackInfo info) {
         if (this.secondAttackCooldown > 0) {
             --this.secondAttackCooldown;
-        }
-        if (this.attackedOffhand) {
-            this.itemUseCooldown = 4;
         }
     }
 
@@ -63,9 +60,9 @@ public class MinecraftClientMixin {
                     switch (this.crosshairTarget.getType()) {
                     case ENTITY:
                         // Client
-                        ((PlayerAccess) player).setOffhandAttack();
-                        ((PlayerAccess) player).resetLastOffhandAttackTicks();
-                        player.attack(((EntityHitResult) this.crosshairTarget).getEntity());
+                        ((PlayerAccess) player).resetLastDualOffhandAttackTicks();
+                        ((PlayerAccess) this.player).attackOffhand(((EntityHitResult) this.crosshairTarget).getEntity());
+
                         // Server
                         MinecraftClient.getInstance().getNetworkHandler().sendPacket(PlayerAttackPacket.attackPacket(((EntityHitResult) this.crosshairTarget).getEntity()));
                         break;
@@ -80,17 +77,15 @@ public class MinecraftClientMixin {
                         if (this.interactionManager.hasLimitedAttackSpeed()) {
                             this.secondAttackCooldown = 10;
                         }
-                        ((PlayerAccess) player).resetLastOffhandAttackTicks();
+                        ((PlayerAccess) player).resetLastDualOffhandAttackTicks();
                     }
-                    attackedOffhand = true;
+                    this.itemUseCooldown = 4;
                     this.player.swingHand(Hand.OFF_HAND);
                     info.cancel();
                 }
             } else {
                 info.cancel();
             }
-        } else if (this.attackedOffhand) {
-            this.attackedOffhand = false;
         }
     }
 

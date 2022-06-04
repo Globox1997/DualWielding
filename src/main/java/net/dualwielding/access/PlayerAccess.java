@@ -1,12 +1,13 @@
 package net.dualwielding.access;
 
+import net.minecraft.entity.Entity;
+
 public interface PlayerAccess {
 
-    void resetLastOffhandAttackTicks();
+    void resetLastDualOffhandAttackTicks();
 
-    void setOffhandAttack();
+    float getAttackCooldownProgressDualOffhand(float baseTime);
 
-    boolean isOffhandAttack();
+    void attackOffhand(Entity target);
 
-    float getAttackCooldownProgressOffhand(float baseTime);
 }
