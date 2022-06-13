@@ -70,7 +70,7 @@ public class MinecraftClientMixin {
                         BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
                         BlockPos blockPos = blockHitResult.getBlockPos();
                         if (!player.world.getBlockState(blockPos).isAir()) {
-                            this.interactionManager.interactBlock(player, player.clientWorld, Hand.OFF_HAND, blockHitResult);
+                            this.interactionManager.interactBlock(player, Hand.OFF_HAND, blockHitResult);
                             break;
                         }
                     case MISS:
