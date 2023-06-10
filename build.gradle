@@ -13,8 +13,7 @@ group = project.maven_group
 repositories {
 	maven { url 'https://jitpack.io' }
 	maven { url "https://maven.shedaniel.me/" }
-	maven { url "https://maven.jamieswhiteshirt.com/libs-release/" }
-	maven { url = uri("https://storage.googleapis.com/devan-maven/") }
+	maven { url "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -24,17 +23,9 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//Straw
-	// modCompileOnly 'com.github.GabrielOlvH:Straw-Dummy:476edb8d8b', {
-	// 	exclude(group: "net.fabricmc.fabric-api")
-	// }
 	//Medieval Weapons
-	modCompileOnly("net.devtech:arrp:0.6.4")
-	modCompileOnly ('com.github.Globox1997:MedievalWeapons:1.19-SNAPSHOT'),{
+	modCompileOnly ('maven.modrinth:medievalweapons:1.4.5+1.19.2'){
 		exclude(group: "net.fabricmc.fabric-api")
-		exclude(group: "com.terraformersmc")
-		exclude(group: "curse.maven")
-		exclude(group: "com.github.TheIllusiveC4")
 	}
 
 }
