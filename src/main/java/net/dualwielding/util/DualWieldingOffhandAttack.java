@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -52,8 +51,8 @@ public class DualWieldingOffhandAttack {
             int i = 0;
             i += EnchantmentHelper.getLevel(Enchantments.KNOCKBACK, itemStack);
             if (playerEntity.isSprinting() && bl) {
-                playerEntity.world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, playerEntity.getSoundCategory(), 1.0f,
-                        1.0f);
+                playerEntity.getWorld().playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, playerEntity.getSoundCategory(),
+                        1.0f, 1.0f);
                 ++i;
                 bl2 = true;
             }
@@ -81,7 +80,7 @@ public class DualWieldingOffhandAttack {
                 }
             }
             Vec3d vec3d = target.getVelocity();
-            boolean bl6 = target.damage(DamageSource.player((PlayerEntity) (Object) playerEntity), f);
+            boolean bl6 = target.damage(target.getDamageSources().playerAttack((PlayerEntity) (Object) playerEntity), f);
             if (bl6) {
                 if (i > 0) {
                     if (target instanceof LivingEntity) {
@@ -96,20 +95,20 @@ public class DualWieldingOffhandAttack {
                 }
                 if (bl42) {
                     float l = 1.0f + SweepingEnchantment.getMultiplier(EnchantmentHelper.getLevel(Enchantments.SWEEPING, itemStack)) * f;
-                    List<LivingEntity> list = playerEntity.world.getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(1.0, 0.25, 1.0));
+                    List<LivingEntity> list = playerEntity.getWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(1.0, 0.25, 1.0));
                     for (LivingEntity livingEntity : list) {
                         if (livingEntity == playerEntity || livingEntity == target || playerEntity.isTeammate(livingEntity)
                                 || livingEntity instanceof ArmorStandEntity && ((ArmorStandEntity) livingEntity).isMarker() || !(playerEntity.squaredDistanceTo(livingEntity) < 9.0))
                             continue;
                         livingEntity.takeKnockback(0.4f, MathHelper.sin(playerEntity.getYaw() * ((float) Math.PI / 180)), -MathHelper.cos(playerEntity.getYaw() * ((float) Math.PI / 180)));
-                        livingEntity.damage(DamageSource.player((PlayerEntity) (Object) playerEntity), l);
+                        livingEntity.damage(livingEntity.getDamageSources().playerAttack((PlayerEntity) (Object) playerEntity), l);
                     }
-                    playerEntity.world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, playerEntity.getSoundCategory(), 1.0f,
-                            1.0f);
+                    playerEntity.getWorld().playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, playerEntity.getSoundCategory(),
+                            1.0f, 1.0f);
 
                     double posOne = -MathHelper.sin(playerEntity.getYaw() * ((float) Math.PI / 180));
                     double posTwo = MathHelper.cos(playerEntity.getYaw() * ((float) Math.PI / 180));
-                    ((ServerWorld) playerEntity.world).spawnParticles(ParticleInit.OFFHAND_SWEEPING, playerEntity.getX() + posOne, playerEntity.getBodyY(0.5D), playerEntity.getZ() + posTwo, 0,
+                    ((ServerWorld) playerEntity.getWorld()).spawnParticles(ParticleInit.OFFHAND_SWEEPING, playerEntity.getX() + posOne, playerEntity.getBodyY(0.5D), playerEntity.getZ() + posTwo, 0,
                             posOne, 0.0D, posTwo, 0.0D);
                 }
                 if (target instanceof ServerPlayerEntity && target.velocityModified) {
@@ -118,17 +117,17 @@ public class DualWieldingOffhandAttack {
                     target.setVelocity(vec3d);
                 }
                 if (bl3) {
-                    playerEntity.world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, playerEntity.getSoundCategory(), 1.0f,
-                            1.0f);
+                    playerEntity.getWorld().playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, playerEntity.getSoundCategory(),
+                            1.0f, 1.0f);
                     ((PlayerEntity) (Object) playerEntity).addCritParticles(target);
                 }
                 if (!bl3 && !bl42) {
                     if (bl) {
-                        playerEntity.world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, playerEntity.getSoundCategory(),
-                                1.0f, 1.0f);
+                        playerEntity.getWorld().playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG,
+                                playerEntity.getSoundCategory(), 1.0f, 1.0f);
                     } else {
-                        playerEntity.world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, playerEntity.getSoundCategory(), 1.0f,
-                                1.0f);
+                        playerEntity.getWorld().playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, playerEntity.getSoundCategory(),
+                                1.0f, 1.0f);
                     }
                 }
                 if (g > 0.0f) {
@@ -144,7 +143,7 @@ public class DualWieldingOffhandAttack {
                 if (target instanceof EnderDragonPart) {
                     entity = ((EnderDragonPart) target).owner;
                 }
-                if (!playerEntity.world.isClient && !itemStack2.isEmpty() && entity instanceof LivingEntity) {
+                if (!playerEntity.getWorld().isClient() && !itemStack2.isEmpty() && entity instanceof LivingEntity) {
                     itemStack2.postHit((LivingEntity) entity, (PlayerEntity) (Object) playerEntity);
                     if (itemStack2.isEmpty()) {
                         playerEntity.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
@@ -156,16 +155,16 @@ public class DualWieldingOffhandAttack {
                     if (k > 0) {
                         target.setOnFireFor(k * 4);
                     }
-                    if (playerEntity.world instanceof ServerWorld && m > 2.0f) {
+                    if (playerEntity.getWorld() instanceof ServerWorld && m > 2.0f) {
                         int n = (int) ((double) m * 0.5);
-                        ((ServerWorld) playerEntity.world).spawnParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getBodyY(0.5), target.getZ(), n, 0.1, 0.0, 0.1, 0.2);
+                        ((ServerWorld) playerEntity.getWorld()).spawnParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getBodyY(0.5), target.getZ(), n, 0.1, 0.0, 0.1, 0.2);
                     }
                     target.timeUntilRegen = 0;
                 }
                 ((PlayerEntity) (Object) playerEntity).addExhaustion(0.1f);
             } else {
-                playerEntity.world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, playerEntity.getSoundCategory(), 1.0f,
-                        1.0f);
+                playerEntity.getWorld().playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, playerEntity.getSoundCategory(),
+                        1.0f, 1.0f);
                 if (bl5) {
                     target.extinguish();
                 }

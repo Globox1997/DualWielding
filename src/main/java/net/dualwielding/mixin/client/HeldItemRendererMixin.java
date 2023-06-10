@@ -67,9 +67,9 @@ public class HeldItemRendererMixin {
     @Inject(method = "updateHeldItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getAttackCooldownProgress(F)F"))
     public void updateHeldMainhandMixin(CallbackInfo info) {
         float o = ((PlayerAccess) client.player).getAttackCooldownProgressDualOffhand(1.0F);
-        if (o < 0.9F && o > 0.15F)
+        if (o < 0.9F && o > 0.15F) {
             this.offHand = new ItemStack(Items.AIR);
-
+        }
     }
 
     // @ModifyVariable(method = "updateHeldItems", at = @At(value = "FIELD", target

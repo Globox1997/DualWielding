@@ -12,8 +12,8 @@ import net.medievalweapons.item.Ninjato_Item;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.util.Identifier;
 
 public class PlayerAttackPacket {
@@ -31,8 +31,8 @@ public class PlayerAttackPacket {
             int entityId = buffer.readInt();
             server.execute(() -> {
                 player.updateLastActionTime();
-                if (player.world.getEntityById(entityId) != null)
-                    ((PlayerAccess) player).attackOffhand(player.world.getEntityById(entityId));
+                if (player.getWorld().getEntityById(entityId) != null)
+                    ((PlayerAccess) player).attackOffhand(player.getWorld().getEntityById(entityId));
 
             });
 
@@ -45,8 +45,9 @@ public class PlayerAttackPacket {
                 && (offHandItemStack.isIn(TagInit.DOUBLE_HANDED_ITEMS) || offHandItemStack.isIn(TagInit.ACCROSS_DOUBLE_HANDED_ITEMS) || offHandItemStack.getItem() instanceof Long_Sword_Item
                         || offHandItemStack.getItem() instanceof Big_Axe_Item || (offHandItemStack.getItem() instanceof Ninjato_Item && mainHandItem instanceof Ninjato_Item))) {
             return false;
-        } else
+        } else {
             return true;
+        }
     }
 
 }

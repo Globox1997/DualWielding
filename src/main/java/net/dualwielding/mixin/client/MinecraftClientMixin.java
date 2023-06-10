@@ -27,6 +27,7 @@ import net.minecraft.util.math.BlockPos;
 @Environment(EnvType.CLIENT)
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
+
     @Shadow
     @Nullable
     public ClientPlayerEntity player;
@@ -69,7 +70,7 @@ public class MinecraftClientMixin {
                     case BLOCK:
                         BlockHitResult blockHitResult = (BlockHitResult) this.crosshairTarget;
                         BlockPos blockPos = blockHitResult.getBlockPos();
-                        if (!player.world.getBlockState(blockPos).isAir()) {
+                        if (!player.getWorld().getBlockState(blockPos).isAir()) {
                             this.interactionManager.interactBlock(player, Hand.OFF_HAND, blockHitResult);
                             break;
                         }
