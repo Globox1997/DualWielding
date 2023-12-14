@@ -1,6 +1,6 @@
 ### Added:
 - 
 ### Fixed:
-- 
+- Fixed mod compats
 ### Changed:
-- Updated to mc 1.20.1
+- 
