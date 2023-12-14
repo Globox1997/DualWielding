@@ -9,7 +9,9 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.enchantment.SweepingEnchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -29,6 +31,23 @@ import net.minecraft.util.math.Vec3d;
 
 public class DualWieldingOffhandAttack {
 
+    public static float getOffhandAttackCooldownProgressPerTick(PlayerEntity playerEntity) {
+        EntityAttributeInstance newInstance = new EntityAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED, spd -> playerEntity.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED));
+        if (!playerEntity.getMainHandStack().getAttributeModifiers(EquipmentSlot.MAINHAND).values().isEmpty()) {
+            playerEntity.getMainHandStack().getAttributeModifiers(EquipmentSlot.MAINHAND).values().forEach((attribute) -> {
+                newInstance.removeModifier(attribute);
+            });
+        }
+        if (!playerEntity.getOffHandStack().getAttributeModifiers(EquipmentSlot.MAINHAND).values().isEmpty()) {
+            playerEntity.getOffHandStack().getAttributeModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.GENERIC_ATTACK_SPEED).forEach((attribute) -> {
+                if (!newInstance.hasModifier(attribute)) {
+                    newInstance.addPersistentModifier(attribute);
+                }
+            });
+        }
+        return (float) (1.0 / newInstance.getValue() * 20.0);
+    }
+
     public static void offhandAttack(PlayerEntity playerEntity, Entity target) {
         if (!target.isAttackable()) {
             return;
@@ -39,6 +58,24 @@ public class DualWieldingOffhandAttack {
         target.timeUntilRegen = 0;
 
         float f = (float) playerEntity.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+        if (!playerEntity.getWorld().isClient()) {
+            EntityAttributeInstance newInstance = new EntityAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                    att -> playerEntity.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE));
+            if (!playerEntity.getMainHandStack().getAttributeModifiers(EquipmentSlot.MAINHAND).values().isEmpty()) {
+                playerEntity.getMainHandStack().getAttributeModifiers(EquipmentSlot.MAINHAND).values().forEach((attribute) -> {
+                    newInstance.removeModifier(attribute);
+                });
+            }
+            if (!playerEntity.getOffHandStack().getAttributeModifiers(EquipmentSlot.MAINHAND).values().isEmpty()) {
+                playerEntity.getOffHandStack().getAttributeModifiers(EquipmentSlot.MAINHAND).get(EntityAttributes.GENERIC_ATTACK_DAMAGE).forEach((attribute) -> {
+                    if (!newInstance.hasModifier(attribute)) {
+                        newInstance.addPersistentModifier(attribute);
+                    }
+                });
+            }
+            f = (float) newInstance.getValue();
+        }
+
         float g = target instanceof LivingEntity ? EnchantmentHelper.getAttackDamage(playerEntity.getOffHandStack(), ((LivingEntity) target).getGroup())
                 : EnchantmentHelper.getAttackDamage(playerEntity.getOffHandStack(), EntityGroup.DEFAULT);
         float h = ((PlayerAccess) playerEntity).getAttackCooldownProgressDualOffhand(0.5f);

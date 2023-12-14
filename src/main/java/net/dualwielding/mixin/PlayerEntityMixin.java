@@ -3,7 +3,6 @@ package net.dualwielding.mixin;
 import com.mojang.authlib.GameProfile;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -34,9 +33,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerAc
         lastAttackedOffhandTicks++;
     }
 
-    @Shadow
-    public float getAttackCooldownProgressPerTick() {
-        return 1.0F;
+    public float getOffhandAttackCooldownProgressPerTick() {
+        return DualWieldingOffhandAttack.getOffhandAttackCooldownProgressPerTick((PlayerEntity) (Object) this);
     }
 
     @Override
@@ -51,7 +49,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerAc
 
     @Override
     public float getAttackCooldownProgressDualOffhand(float baseTime) {
-        return MathHelper.clamp(((float) this.lastAttackedOffhandTicks + baseTime) / this.getAttackCooldownProgressPerTick(), 0.0F, 1.0F);
+        return MathHelper.clamp(((float) this.lastAttackedOffhandTicks + baseTime) / this.getOffhandAttackCooldownProgressPerTick(), 0.0F, 1.0F);
     }
 
 }
